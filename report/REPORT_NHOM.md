@@ -17,28 +17,35 @@
 **Chủ đề (cố định theo lớp K4):** Chính sách thương mại điện tử / hỗ trợ khách hàng (thanh toán, đổi trả, giao hàng, quyền riêng tư, điều kiện người bán…).
 
 **Phạm vi cụ thể nhóm tập trung:**
-> *1 câu — ví dụ: đổi trả + điều kiện người bán.*
+> Chính sách hỗ trợ người mua và người bán trên Shopee, tập trung vào đổi trả, đăng bán, vận chuyển, thanh toán và quyền riêng tư.
 
 ### Danh sách tài liệu (Data Inventory)
 
 | # | Tên tài liệu | Nguồn (Source URL) | Ngày lấy / Phiên bản | Số ký tự | Metadata đã gán |
 |---|--------------|------------|--------------------|----------|-----------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| 1 | Chính sách trả hàng và hoàn tiền | [Shopee Help Center](https://help.shopee.vn/portal/4/article/77251?seo=1) | 03/08/2026 / hiệu lực 11/03/2026 | 1.476 | `customer_role=both`, `category=returns` |
+| 2 | Quy định đăng bán sản phẩm | [Shopee Help Center](https://help.shopee.vn/portal/4/article/77246) | 03/08/2026 / bản truy xuất | 1.408 | `customer_role=seller`, `category=listing` |
+| 3 | Chính sách vận chuyển | [Shopee Help Center](https://help.shopee.vn/portal/4/article/77250) | 03/08/2026 / đăng 20/03/2026 | 1.308 | `customer_role=both`, `category=shipping` |
+| 4 | Chính sách bảo mật | [Shopee Help Center](https://help.shopee.vn/portal/4/article/77244) | 03/08/2026 / hiệu lực 11/06/2026 | 1.312 | `customer_role=both`, `category=privacy` |
+| 5 | Các phương thức thanh toán | [Shopee Help Center](https://help.shopee.vn/portal/4/article/79198-) | 03/08/2026 / bản truy xuất | 1.346 | `customer_role=buyer`, `category=payment` |
+| 6 | Hướng dẫn và giới hạn COD | [Shopee Help Center](https://help.shopee.vn/portal/4/article/79295-) | 03/08/2026 / bản truy xuất | 1.147 | `customer_role=buyer`, `category=payment` |
 
 **Danh sách kiểm tra quản trị dữ liệu (Data governance checklist):**
-- [ ] Tập tài liệu (Corpus) chỉ chứa nguồn công khai/được phép dùng và không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
-- [ ] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` (hoặc ngày hiệu lực) trong metadata.
+- [x] Tập tài liệu chỉ chứa bản tóm lược từ Trung tâm trợ giúp công khai của Shopee; không chứa dữ liệu cá nhân, thông tin đăng nhập hoặc tài liệu nội bộ.
+- [x] Mỗi tài liệu có `source_url`, `retrieved_at`, `document_version` và ánh xạ tương ứng trong `sources.csv`.
 
 ### Cấu trúc Metadata (Metadata Schema)
 
 | Trường metadata | Kiểu | Ví dụ giá trị | Tại sao hữu ích cho truy xuất (retrieval)? |
 |----------------|------|---------------|-------------------------------|
-| | | | |
-| | | | |
+| `doc_id` | string | `shopee-returns-refunds` | Định danh duy nhất và liên kết các chunks để xóa/truy vết. |
+| `customer_role` | enum string | `buyer`, `seller`, `both` | Lọc chính sách theo đối tượng người dùng theo yêu cầu K4. |
+| `category` | enum string | `returns`, `listing`, `shipping`, `privacy`, `payment` | Thu hẹp retrieval theo nghiệp vụ. |
+| `platform` | string | `shopee` | Cho phép mở rộng corpus sang nền tảng khác mà vẫn lọc được. |
+| `language` | string | `vi` | Chọn tài liệu theo ngôn ngữ và embedding phù hợp. |
+| `source_url` | URL string | `https://help.shopee.vn/...` | Truy vết và kiểm chứng câu trả lời tại nguồn chính thức. |
+| `retrieved_at` | date | `2026-08-03` | Đánh giá độ mới của dữ liệu được thu thập. |
+| `document_version` | string | `effective-2026-03-11` | Phân biệt phiên bản/ngày hiệu lực của chính sách. |
 
 ---
 

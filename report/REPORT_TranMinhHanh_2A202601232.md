@@ -1,7 +1,6 @@
 # Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
 
-**Họ tên:** Trần Minh Hạnh
-**Mã sinh viên:** 2A202601232
+**Họ tên:** Trần Minh Hạnh-2A202601232
 **Nhóm:** G63
 **Ngày:** 03/08/2026
 

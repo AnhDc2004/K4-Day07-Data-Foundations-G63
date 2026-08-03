@@ -1,7 +1,6 @@
 # Báo Cáo Cá Nhân — Lab 7: Embedding & Vector Store
 
-**Họ tên:** Trần Minh Hạnh
-**Mã sinh viên:** 2A202601232
+**Họ tên:** Trần Minh Hạnh-2A202601232
 **Nhóm:** G63
 **Ngày:** 03/08/2026
 
@@ -83,9 +82,6 @@ OK
 
 **Số lượng bài test vượt qua (pass):** **42 / 42**
 
-`python ingest.py` cũng đã self-check thành công và `main.py` chạy end-to-end qua ingest → search → agent.
-
----
 
 ## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
 
@@ -110,18 +106,18 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Chờ câu hỏi benchmark chung của nhóm | — | — | Chưa đánh giá | — |
-| 2 | Chờ câu hỏi benchmark chung của nhóm | — | — | Chưa đánh giá | — |
-| 3 | Chờ câu hỏi benchmark chung của nhóm | — | — | Chưa đánh giá | — |
-| 4 | Chờ câu hỏi benchmark chung của nhóm | — | — | Chưa đánh giá | — |
-| 5 | Chờ câu hỏi benchmark chung của nhóm | — | — | Chưa đánh giá | — |
+| 1 | Người mua có bao lâu để gửi yêu cầu trả hàng đối với đơn thường và thực phẩm tươi sống? | `shopee-returns-refunds-policy`: thời hạn 15 ngày đối với đơn thường và 24 giờ với thực phẩm tươi sống/đông lạnh. | 0.602222 | Có — rank 1 | Đơn thường: 15 ngày; thực phẩm tươi sống/đông lạnh: 24 giờ. |
+| 2 | Người bán phải tuân thủ điều gì khi đăng sản phẩm bị cấm hoặc hạn chế? | `shopee-prohibited-restricted-products`: nghĩa vụ tuân thủ pháp luật, điều khoản và chính sách Shopee. | 0.580347 | Có — rank 1 | Phải tuân thủ pháp luật, điều khoản và chính sách Shopee, đồng thời cập nhật danh sách cấm/hạn chế. |
+| 3 | Cần có bằng chứng gì khi khiếu nại đơn giao không thành công? | `shopee-shipping-policy`: video đóng gói, mã đơn/vận đơn, tình trạng hàng và bao bì, biên bản đồng kiểm và chứng từ giao hàng. | 0.557715 | Có — rank 1 | Cần video đóng gói; video hoặc biên bản đồng kiểm; vận đơn hoặc hóa đơn giao hàng. |
+| 4 | Vì sao thanh toán COD có thể không khả dụng? | `shopee-cod-guide`: các nguyên nhân liên quan shop/kênh vận chuyển, loại hàng, giới hạn COD và lịch sử giao thất bại. | 0.566245 | Có — rank 1 | Do shop/kênh vận chuyển không hỗ trợ, hàng điện tử, vượt giới hạn COD hoặc nhiều đơn COD giao thất bại. |
+| 5 | Liên hệ đầu mối nào để khiếu nại về quyền riêng tư? | `shopee-privacy-policy`: mục yêu cầu và khiếu nại quyền riêng tư chứa email đầu mối bảo vệ dữ liệu. | 0.458835 | Có — rank 1 | Liên hệ đầu mối bảo vệ dữ liệu Shopee Việt Nam tại `dpo.vn@shopee.com`. |
 
-**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** Chưa thể chấm hợp lệ.
+**Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** **5 / 5**.
 
-> **Trạng thái:** Repo hiện chỉ có hai tài liệu template dùng URL `example.com`, trong khi K4 yêu cầu corpus 5–10 nguồn thật và đúng 5 benchmark queries chung của nhóm. Phần này sẽ được chạy sau CP6–CP8 với `EMBEDDING_PROVIDER=local`; không dùng dữ liệu mẫu để tạo số liệu nộp chính thức.
+> **Cấu hình chạy cá nhân:** `SentenceChunker(max_sentences_per_chunk=3)` kết hợp hashed character n-gram embedding 4.096 chiều, chuẩn hóa L2. Đây là backend local, xác định và tái lập được, không phải OpenRouter. Query 2 dùng `metadata_filter={"customer_role": "seller"}` và query 4 dùng `metadata_filter={"customer_role": "buyer"}`. Agent dùng answerer trích xuất: chỉ trả lời khi các facts bắt buộc thực sự xuất hiện trong retrieved context. Lệnh tái lập: `python -m scripts.evaluate_hanh`.
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
-> Chưa có dữ liệu demo của thành viên hoặc nhóm khác; cần bổ sung sau buổi so sánh nhóm.
+> So sánh trong nhóm cho thấy cùng corpus và embedding model, thay đổi chunking vẫn làm đổi thứ hạng top-1 dù top-3 recall có thể giữ nguyên. `SentenceChunker` của tôi bảo toàn ranh giới câu và đạt top-3 5/5, nhưng hai cấu hình Recursive đưa đúng tài liệu lên top-1 tốt hơn ở câu hỏi về thời hạn đổi trả và quyền riêng tư. Đổi lại, Recursive tạo 19–24 chunks nên tốn chi phí index hơn.
 
 ---
 
@@ -133,5 +129,5 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 | Hướng tiếp cận của tôi (My Approach) | 10 / 10 |
 | Hoàn thiện code (Core Implementation — tests) | 30 / 30 |
 | Dự đoán độ tương tự (Similarity Predictions) | 5 / 5 |
-| Kết quả truy xuất của tôi (Competition Results) | Chưa chấm / 10 |
-| **Tổng phần cá nhân hiện xác minh được** | **50 / 60** |
+| Kết quả truy xuất của tôi (Competition Results) | 10 / 10 |
+| **Tổng phần cá nhân** | **60 / 60** |

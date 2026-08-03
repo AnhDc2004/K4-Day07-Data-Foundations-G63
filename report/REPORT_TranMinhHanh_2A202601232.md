@@ -83,16 +83,6 @@ OK
 
 **Số lượng bài test vượt qua (pass):** **42 / 42**
 
-Lệnh kiểm thử đúng package cá nhân trên PowerShell:
-
-```powershell
-$env:LAB_SOLUTION_PACKAGE="src.TranMinhHanh_2A202601232"
-python -m unittest discover -s tests
-```
-
-`python ingest.py` cũng đã self-check thành công và `main.py` chạy end-to-end qua ingest → search → agent.
-
----
 
 ## 4. Dự đoán độ tương tự (Similarity Predictions) — Cá nhân (5 điểm)
 

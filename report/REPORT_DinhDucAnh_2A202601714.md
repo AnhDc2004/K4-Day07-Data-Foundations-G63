@@ -32,7 +32,7 @@
 **Tại sao độ tương tự cosine (cosine similarity) được ưu tiên hơn khoảng cách Euclid (Euclidean distance) cho text embeddings?**
 > *Viết 1-2 câu:*
 
-Độ tương tự Cosine chỉ đo góc giữa hai vector mà không bị ảnh hưởng bởi độ dài (magnitude) của vector. Khi so sánh hai đoạn văn có cùng nội dung nhưng một đoạn dài (chứa nhiều từ lặp lại) và một đoạn ngắn, khoảng cách Euclid sẽ rất lớn (do độ dài vector chênh lệch), trong khi độ tương tự Cosine vẫn phản ánh đúng độ tương đồng ngữ nghĩa.
+> Độ tương tự Cosine chỉ đo góc giữa hai vector mà không bị ảnh hưởng bởi độ dài (magnitude) của vector. Khi so sánh hai đoạn văn có cùng nội dung nhưng một đoạn dài (chứa nhiều từ lặp lại) và một đoạn ngắn, khoảng cách Euclid sẽ rất lớn (do độ dài vector chênh lệch), trong khi độ tương tự Cosine vẫn phản ánh đúng độ tương đồng ngữ nghĩa.
 
 ### Bài toán tính toán Chunking (Bài tập 1.2)
 
@@ -73,31 +73,31 @@ Giải thích cách tiếp cận của bạn khi lập trình (implement) các p
 **`SentenceChunker.chunk`** — hướng tiếp cận:
 > *Viết 2-3 câu: dùng biểu thức chính quy (regex) gì để phát hiện câu? Xử lý trường hợp ngoại lệ (edge case) nào?*
 
-Sử dụng regex re.split(r'(?<=[.!?])\s+|\n+', text.strip()) dựa trên Lookbehind để tách văn bản thành các câu riêng biệt tại dấu câu . ! ? hoặc ký tự xuống dòng mà không làm mất dấu câu. Sau đó, các câu rỗng được loại bỏ và gom thành từng nhóm tối đa max_sentences_per_chunk câu bằng vòng lặp step.
+> Sử dụng regex re.split(r'(?<=[.!?])\s+|\n+', text.strip()) dựa trên Lookbehind để tách văn bản thành các câu riêng biệt tại dấu câu . ! ? hoặc ký tự xuống dòng mà không làm mất dấu câu. Sau đó, các câu rỗng được loại bỏ và gom thành từng nhóm tối đa max_sentences_per_chunk câu bằng vòng lặp step.
 
 **`RecursiveChunker.chunk` / `_split`** — hướng tiếp cận:
 > *Viết 2-3 câu: thuật toán hoạt động thế nào? Base case (trường hợp cơ sở) là gì?*
 
-Thuật toán đệ quy thử nghiệm phân tách văn bản bằng danh sách ưu tiên ["\n\n", "\n", ". ", " ", ""]. Trường hợp cơ sở (base case) là khi văn bản nhỏ hơn hoặc bằng chunk_size thì giữ nguyên. Nếu tách ra các đoạn nhỏ hơn, hàm thực hiện gộp (merge) các mẩu nhỏ lại sao cho tổng độ dài kèm separator không vượt quá chunk_size để tránh làm vỡ vụn văn bản.
+> Thuật toán đệ quy thử nghiệm phân tách văn bản bằng danh sách ưu tiên ["\n\n", "\n", ". ", " ", ""]. Trường hợp cơ sở (base case) là khi văn bản nhỏ hơn hoặc bằng chunk_size thì giữ nguyên. Nếu tách ra các đoạn nhỏ hơn, hàm thực hiện gộp (merge) các mẩu nhỏ lại sao cho tổng độ dài kèm separator không vượt quá chunk_size để tránh làm vỡ vụn văn bản.
 
 ### Lớp EmbeddingStore
 
 **`add_documents` + `search`** — hướng tiếp cận:
 > *Viết 2-3 câu: lưu trữ thế nào? Tính độ tương tự ra sao?*
 
-Hàm add_documents nhận danh sách Document, tính vector nhúng qua _embedding_fn và chuẩn hóa metadata (gắn tự động doc_id nếu thiếu) để lưu vào danh sách _store (hoặc ChromaDB). Hàm search nhúng câu truy vấn query, tính điểm similarity giữa vector query với toàn bộ các record trong kho lưu trữ qua hàm compute_similarity, sắp xếp giảm dần theo điểm số và cắt lấy top_k kết quả.
+> Hàm add_documents nhận danh sách Document, tính vector nhúng qua _embedding_fn và chuẩn hóa metadata (gắn tự động doc_id nếu thiếu) để lưu vào danh sách _store (hoặc ChromaDB). Hàm search nhúng câu truy vấn query, tính điểm similarity giữa vector query với toàn bộ các record trong kho lưu trữ qua hàm compute_similarity, sắp xếp giảm dần theo điểm số và cắt lấy top_k kết quả.
 
 **`search_with_filter` + `delete_document`** — hướng tiếp cận:
 > *Viết 2-3 câu: lọc (filter) trước hay sau? Xóa bằng cách nào?*
 
-search_with_filter áp dụng pre-filtering: duyệt qua kho _store để lọc các record khớp toàn bộ cặp key-value trong metadata_filter trước, sau đó mới tính độ tương tự và xếp hạng. delete_document lọc bỏ các record có id hoặc metadata['doc_id'] trùng với doc_id cần xóa, trả về True nếu số lượng phần tử bị giảm đi.
+> search_with_filter áp dụng pre-filtering: duyệt qua kho _store để lọc các record khớp toàn bộ cặp key-value trong metadata_filter trước, sau đó mới tính độ tương tự và xếp hạng. delete_document lọc bỏ các record có id hoặc metadata['doc_id'] trùng với doc_id cần xóa, trả về True nếu số lượng phần tử bị giảm đi.
 
 ### Tác tử KnowledgeBaseAgent
 
 **`answer`** — hướng tiếp cận:
 > *Viết 2-3 câu: cấu trúc prompt? Cách đưa ngữ cảnh (inject context) vào thế nào?*
 
-Gọi self.store.search(question, top_k) để truy xuất top-k chunk liên quan nhất, trích xuất nội dung content và nối lại thành chuỗi ngữ cảnh context_str. Tạo prompt định dạng mẫu đặt ngữ cảnh và câu hỏi, sau đó chuyển prompt này cho self.llm_fn(prompt) để sinh ra câu trả lời dựa trên căn cứ dữ liệu.
+> Gọi self.store.search(question, top_k) để truy xuất top-k chunk liên quan nhất, trích xuất nội dung content và nối lại thành chuỗi ngữ cảnh context_str. Tạo prompt định dạng mẫu đặt ngữ cảnh và câu hỏi, sau đó chuyển prompt này cho self.llm_fn(prompt) để sinh ra câu trả lời dựa trên căn cứ dữ liệu.
 
 ---
 
@@ -179,7 +179,7 @@ tests/test_solution.py::TestEmbeddingStoreDeleteDocument::test_delete_returns_tr
 **Kết quả nào bất ngờ nhất? Điều này nói gì về cách embeddings biểu diễn ý nghĩa?**
 > *Viết 2-3 câu:*
 
-Kết quả ở cặp số 3 gây ấn tượng nhất vì mô hình nhúng đa ngữ xử lý rất tốt các từ mượn tiếng Anh lẫn thuật ngữ chuyên ngành (Seller, tracking number) tương đồng nghĩa với tiếng Việt (Người bán, mã vận đơn). Điều này chứng minh embeddings biểu diễn ngữ nghĩa vượt qua ranh giới ngôn ngữ bề mặt, tập trung vào bản chất khái niệm.
+> So sánh với các chiến lược FixedSizeChunker hay SentenceChunker của thành viên khác trong nhóm, việc thử nghiệm RecursiveChunker giúp đạt điểm similarity thực tế và ổn định hơn (dao động ở mức 0.51–0.67), đảm bảo toàn bộ 5/5 câu hỏi đều truy xuất chính xác tài liệu chuẩn ở vị trí Rank 1. Ngoài ra, việc tận dụng các trường metadata như `customer_role` (buyer/seller) và `category` giúp pre-filter triệt tiêu hoàn toàn các tài liệu không liên quan trước khi tính vector searc
 
 ---
 
@@ -189,11 +189,11 @@ Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân củ
 
 | # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
 |---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Người mua có bao lâu để gửi yêu cầu trả hàng đối với đơn thường và thực phẩm tươi sống? | "Đơn hàng thông thường có 15 ngày kể từ khi giao hàng thành công. Đối với thực phẩm tươi sống hoặc đông lạnh, thời hạn gửi yêu cầu là 24 giờ..." | 0.87 | Có | Đơn thường có thời hạn 15 ngày kể từ khi giao thành công, còn thực phẩm tươi sống/đông lạnh là 24 giờ. |
-| 2 | Quy định thời gian tối đa để người bán chuẩn bị hàng là bao lâu? (filter: customer_role="seller") | "Người bán có nghĩa vụ xác nhận đơn hàng và giao cho đơn vị vận chuyển trong tối đa 24 giờ làm việc..." | 0.89 | Có | Người bán cần chuẩn bị và bàn giao hàng cho bên vận chuyển trong vòng 24 giờ làm việc. |
-| 3 | Phương thức thanh toán nào được áp dụng cho đơn hàng COD? | "Đơn hàng ship COD hỗ trợ thanh toán tiền mặt trực tiếp cho shipper khi nhận hàng..." | 0.81 | Có | Thanh toán tiền mặt trực tiếp khi shipper giao hàng được áp dụng cho đơn COD. |
-| 4 | Khi nào shop bị tính phí phạt hủy đơn tự động? | "Shop bị tính phạt hủy đơn tự động nếu không giao hàng sau 48h hoặc tự ý bấm hủy do hết hàng..." | 0.84 | Có | Shop bị phạt hủy đơn nếu tự ý hủy hoặc quá 48h không chuyển hàng cho đơn vị vận chuyển. |
-| 5 | Quyền riêng tư đối với thông tin số điện thoại người mua được xử lý ra sao? | "Số điện thoại của người mua được ẩn dạng *** trên mã vận đơn nhằm bảo vệ quyền riêng tư..." | 0.79 | Có | Số điện thoại được che mờ dưới dạng *** trên nhãn vận chuyển để bảo mật thông tin cá nhân. |
+| 1 | Người mua có bao lâu để gửi yêu cầu trả hàng đối với đơn thường và thực phẩm tươi sống? | `shopee-returns-refunds-policy`: thời hạn 15 ngày đối với đơn thường và 24 giờ với thực phẩm tươi sống/đông lạnh. | 0.622 | Có — rank 1 | Đơn thường: 15 ngày; thực phẩm tươi sống/đông lạnh: 24 giờ. |
+| 2 | Người bán phải tuân thủ điều gì khi đăng sản phẩm bị cấm hoặc hạn chế? | `shopee-prohibited-restricted-products`: nghĩa vụ tuân thủ pháp luật, điều khoản và chính sách Shopee. | 0.573 | Có — rank 1 | Phải tuân thủ pháp luật, điều khoản và chính sách Shopee, đồng thời cập nhật danh sách cấm/hạn chế. |
+| 3 | Cần có bằng chứng gì khi khiếu nại đơn giao không thành công? | `shopee-shipping-policy`: video đóng gói, mã đơn/vận đơn, tình trạng hàng và bao bì, biên bản đồng kiểm và chứng từ giao hàng. | 0.486 | Có — rank 1 | Cần video đóng gói; video hoặc biên bản đồng kiểm; vận đơn hoặc hóa đơn giao hàng. |
+| 4 | Vì sao thanh toán COD có thể không khả dụng? | `shopee-cod-guide`: các nguyên nhân liên quan shop/kênh vận chuyển, loại hàng, giới hạn COD và lịch sử giao thất bại. | 0.524 | Có — rank 1 | Do shop/kênh vận chuyển không hỗ trợ, hàng điện tử, vượt giới hạn COD hoặc nhiều đơn COD giao thất bại. |
+| 5 | Liên hệ đầu mối nào để khiếu nại về quyền riêng tư? | `shopee-privacy-policy`: mục yêu cầu và khiếu nại quyền riêng tư chứa email đầu mối bảo vệ dữ liệu. | 0.552 | Có — rank 1 | Liên hệ đầu mối bảo vệ dữ liệu Shopee Việt Nam tại `dpo.vn@shopee.com`. |
 
 **Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** 5 / 5
 

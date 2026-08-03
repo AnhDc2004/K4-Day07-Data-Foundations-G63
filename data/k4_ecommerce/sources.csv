@@ -1,3 +1,10 @@
 doc_id,file_path,title,source_url,retrieved_at,document_version,license_or_permission
-k4-returns-policy,data/k4_ecommerce/returns-policy.md,Chính sách đổi trả,https://example.com/chinh-sach/doi-tra,2026-08-02,2026.1,example-template-replace-me
-k4-seller-listing,data/k4_ecommerce/seller-listing.md,Quy định đăng bán,https://example.com/nguoi-ban/dang-ban,2026-08-02,2026.1,example-template-replace-me
+k4-returns-policy,data/k4_ecommerce/returns-policy.md,Chính sách đổi trả (mẫu),https://example.com/chinh-sach/doi-tra,2026-08-02,2026.1,template-only
+k4-seller-listing,data/k4_ecommerce/seller-listing.md,Quy định đăng bán (mẫu),https://example.com/nguoi-ban/dang-ban,2026-08-02,2026.1,template-only
+shopee-returns-refunds-policy,data/k4_ecommerce/returns-policy-shoppe.md,Chính sách trả hàng và hoàn tiền của Shopee,https://help.shopee.vn/4/article/77251-CH%C3%8DNH-S%C3%81CH-TR%E1%BA%A2-H%C3%80NG-V%C3%80-HO%C3%80N-TI%E1%BB%80N,2026-08-03,not-stated-on-source,public-page
+shopee-prohibited-restricted-products,data/k4_ecommerce/seller-listing-shoppe.md,Chính sách cấm/hạn chế sản phẩm của Shopee,https://help.shopee.vn/portal/4/article/77247?previousPage=other+articles,2026-08-03,not-stated-on-source,public-page
+shopee-seller-listing,data/k4_ecommerce/seller-listing.md,Quy định đăng bán sản phẩm trên Shopee,https://help.shopee.vn/portal/4/article/77246,2026-08-03,accessed-2026-08-03,public-official-help-center
+shopee-shipping-policy,data/k4_ecommerce/shipping-policy.md,Chính sách vận chuyển Shopee,https://help.shopee.vn/portal/4/article/77250,2026-08-03,published-2026-03-20,public-official-help-center
+shopee-privacy-policy,data/k4_ecommerce/privacy-policy.md,Chính sách bảo mật Shopee,https://help.shopee.vn/portal/4/article/77244,2026-08-03,effective-2026-06-11,public-official-help-center
+shopee-payment-methods,data/k4_ecommerce/payment-methods.md,Các phương thức thanh toán trên Shopee,https://help.shopee.vn/portal/4/article/79198-,2026-08-03,accessed-2026-08-03,public-official-help-center
+shopee-cod-guide,data/k4_ecommerce/cod-guide.md,Hướng dẫn và giới hạn thanh toán khi nhận hàng,https://help.shopee.vn/portal/4/article/79295-,2026-08-03,accessed-2026-08-03,public-official-help-center

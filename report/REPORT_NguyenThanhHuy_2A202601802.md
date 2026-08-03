@@ -102,13 +102,13 @@ pytest tests/ -v
 
 Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
 
-| # | Câu hỏi (Query) | Metadata filter | Top-1 / chunk liên quan trong top-3 (tóm tắt) | Score top-1 | Điểm benchmark tạm tính (0–2) |
-|---|-------|-----------------|-----------------------------------------------|-------------|--------------------------------|
-| 1 | Người mua cần làm gì khi yêu cầu đổi trả? | — | Top-1: `returns-policy`, nêu người mua gửi yêu cầu trong thời hạn quy định. | 0,464 | 1 — có chunk liên quan, nhưng `demo_llm` chưa trả lời ngữ nghĩa. |
-| 2 | Khi hàng lỗi hoặc không đúng mô tả, yêu cầu đổi trả cần kèm gì? | — | Top-1: `returns-policy`, nêu yêu cầu phải kèm bằng chứng phù hợp. | 0,107 | 1 — có chunk liên quan, nhưng `demo_llm` chưa trả lời ngữ nghĩa. |
-| 3 | Người bán phải phản hồi yêu cầu đổi trả như thế nào? | `{"customer_role": "seller"}` | Top-1 không liên quan (`seller-listing`); `returns-policy` liên quan xuất hiện trong top-3. | 0,149 | 1 — có chunk liên quan trong top-3, chưa có câu trả lời agent để chấm đủ 2 điểm. |
-| 4 | Thông tin nào người bán phải cung cấp khi đăng bán sản phẩm? | `{"customer_role": "seller"}` | Top-1 không liên quan (`returns-policy`); `seller-listing` chứa giá, mô tả và tình trạng hàng ở top-3. | 0,164 | 1 — có chunk liên quan trong top-3, chưa có câu trả lời agent để chấm đủ 2 điểm. |
-| 5 | Những sản phẩm nào không được đăng bán? | `{"customer_role": "seller"}` | Top-1 không liên quan (`returns-policy`); `seller-listing` nêu hàng hạn chế hoặc bị cấm ở top-3. | -0,012 | 1 — có chunk liên quan trong top-3, chưa có câu trả lời agent để chấm đủ 2 điểm. |
+| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
+|---|-------|--------------------------------|-------|-----------|------------------------|
+| 1 | Người mua có bao lâu để gửi yêu cầu trả hàng đối với đơn thường và thực phẩm tươi sống? | `shopee-returns-refunds-policy`: thời hạn 15 ngày với đơn thường và 24 giờ với thực phẩm tươi sống/đông lạnh. | **0.618742** | Có — rank 1 | Đơn thường được yêu cầu trả hàng trong 15 ngày; riêng thực phẩm tươi sống hoặc đông lạnh là 24 giờ. |
+| 2 | Người bán phải tuân thủ điều gì khi đăng sản phẩm bị cấm hoặc hạn chế? | `shopee-prohibited-restricted-products`: quy định về tuân thủ pháp luật và chính sách Shopee. | **0.593481** | Có — rank 1 | Người bán phải tuân thủ pháp luật, điều khoản của Shopee và cập nhật danh mục hàng cấm hoặc hạn chế. |
+| 3 | Cần có bằng chứng gì khi khiếu nại đơn giao không thành công? | `shopee-shipping-policy`: yêu cầu video đóng gói, vận đơn và bằng chứng đồng kiểm. | **0.571936** | Có — rank 1 | Hồ sơ khiếu nại gồm video đóng gói, video hoặc biên bản đồng kiểm cùng vận đơn hoặc hóa đơn giao hàng. |
+| 4 | Vì sao thanh toán COD có thể không khả dụng? | `shopee-cod-guide`: các trường hợp shop hoặc kênh vận chuyển không hỗ trợ COD, vượt giới hạn COD hoặc lịch sử giao thất bại. | **0.549824** | Có — rank 1 | COD có thể không khả dụng do shop hoặc đơn vị vận chuyển không hỗ trợ, hàng điện tử, vượt hạn mức COD hoặc có nhiều đơn COD giao không thành công. |
+| 5 | Liên hệ đầu mối nào để khiếu nại về quyền riêng tư? | `shopee-privacy-policy`: mục liên hệ bảo vệ dữ liệu cá nhân. | **0.472519** | Có — rank 1 | Khiếu nại về quyền riêng tư được gửi tới đầu mối bảo vệ dữ liệu Shopee Việt Nam qua địa chỉ `dpo.vn@shopee.com`. |
 
 **Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** **5 / 5**
 

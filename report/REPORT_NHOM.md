@@ -1,8 +1,14 @@
 # Báo Cáo Nhóm — Lab 7: Embedding & Vector Store
 
+<<<<<<< HEAD
 **Nhóm:** G63
 **Thành viên:** Phan Văn Phương, Nguyễn Thành Huy, Đinh Đức Anh, Lê Huy Hoàng, Trần Minh Hạnh
 **Ngày:** 03/08/2026
+=======
+**Nhóm:** [G63]
+**Thành viên:** [Đinh Đức Anh, Phan Văn Phương, Nguyễn Thành Huy, Trần Minh Hạnh, Lê Huy Hoàng]
+**Ngày:** [03/08/2026]
+>>>>>>> 2619a38f06e7c761745d6c490e03c753a2016bd6
 
 > **Nộp 1 bản / nhóm.** Phần cá nhân (hướng tiếp cận, kết quả riêng, dự đoán…) mỗi thành viên nộp riêng trong `REPORT_CANHAN.md`. Chi tiết thang điểm: `docs/SCORING.md`.
 

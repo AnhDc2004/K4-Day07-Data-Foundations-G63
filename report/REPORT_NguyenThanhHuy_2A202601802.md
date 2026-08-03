@@ -102,15 +102,17 @@ pytest tests/ -v
 
 Chạy **5 câu hỏi đánh giá của nhóm** trên mã nguồn cá nhân của bạn trong gói `src`. **5 câu hỏi này phải trùng với các thành viên cùng nhóm** (xem `REPORT_NHOM.md`).
 
-| # | Câu hỏi (Query) | Top-1 Chunk truy xuất được (tóm tắt) | Điểm Score | Có liên quan không? (Relevant) | Câu trả lời của Agent (tóm tắt) |
-|---|-------|--------------------------------|-------|-----------|------------------------|
-| 1 | Người mua cần làm gì khi yêu cầu đổi trả? | Chunk `returns-policy` nêu người mua phải gửi yêu cầu trong thời hạn quy định. | 0,464 | Có (top-1) | `demo_llm` chỉ trả preview của prompt có context; chưa sinh câu trả lời ngữ nghĩa. |
-| 2 | Khi hàng lỗi hoặc không đúng mô tả, yêu cầu đổi trả cần kèm gì? | Chunk `returns-policy` nêu yêu cầu phải kèm bằng chứng phù hợp. | 0,107 | Có (top-1) | `demo_llm` chỉ trả preview của prompt có context; chưa sinh câu trả lời ngữ nghĩa. |
-| 3 | Người bán phải phản hồi yêu cầu đổi trả như thế nào? | Top-1 là chunk `seller-listing` không liên quan; chunk `returns-policy` liên quan xuất hiện ở top-3. | 0,149 | Có (top-3) | `demo_llm` chỉ trả preview của prompt có context; chưa sinh câu trả lời ngữ nghĩa. |
-| 4 | Thông tin nào người bán phải cung cấp khi đăng bán sản phẩm? | Top-1 là chunk `returns-policy` không liên quan; chunk `seller-listing` chứa giá, mô tả và tình trạng hàng ở top-3. | 0,164 | Có (top-3) | `demo_llm` chỉ trả preview của prompt có context; chưa sinh câu trả lời ngữ nghĩa. |
-| 5 | Những sản phẩm nào không được đăng bán? | Top-1 là chunk `returns-policy` không liên quan; chunk `seller-listing` nêu hàng hạn chế hoặc bị cấm ở top-3. | -0,012 | Có (top-3) | `demo_llm` chỉ trả preview của prompt có context; chưa sinh câu trả lời ngữ nghĩa. |
+| # | Câu hỏi (Query) | Metadata filter | Top-1 / chunk liên quan trong top-3 (tóm tắt) | Score top-1 | Điểm benchmark tạm tính (0–2) |
+|---|-------|-----------------|-----------------------------------------------|-------------|--------------------------------|
+| 1 | Người mua cần làm gì khi yêu cầu đổi trả? | — | Top-1: `returns-policy`, nêu người mua gửi yêu cầu trong thời hạn quy định. | 0,464 | 1 — có chunk liên quan, nhưng `demo_llm` chưa trả lời ngữ nghĩa. |
+| 2 | Khi hàng lỗi hoặc không đúng mô tả, yêu cầu đổi trả cần kèm gì? | — | Top-1: `returns-policy`, nêu yêu cầu phải kèm bằng chứng phù hợp. | 0,107 | 1 — có chunk liên quan, nhưng `demo_llm` chưa trả lời ngữ nghĩa. |
+| 3 | Người bán phải phản hồi yêu cầu đổi trả như thế nào? | `{"customer_role": "seller"}` | Top-1 không liên quan (`seller-listing`); `returns-policy` liên quan xuất hiện trong top-3. | 0,149 | 1 — có chunk liên quan trong top-3, chưa có câu trả lời agent để chấm đủ 2 điểm. |
+| 4 | Thông tin nào người bán phải cung cấp khi đăng bán sản phẩm? | `{"customer_role": "seller"}` | Top-1 không liên quan (`returns-policy`); `seller-listing` chứa giá, mô tả và tình trạng hàng ở top-3. | 0,164 | 1 — có chunk liên quan trong top-3, chưa có câu trả lời agent để chấm đủ 2 điểm. |
+| 5 | Những sản phẩm nào không được đăng bán? | `{"customer_role": "seller"}` | Top-1 không liên quan (`returns-policy`); `seller-listing` nêu hàng hạn chế hoặc bị cấm ở top-3. | -0,012 | 1 — có chunk liên quan trong top-3, chưa có câu trả lời agent để chấm đủ 2 điểm. |
 
 **Bao nhiêu câu hỏi trả về chunk có liên quan trong top-3?** **5 / 5**
+
+**Điểm benchmark tạm tính:** **5 / 10**. Các dòng đều mới xác minh retrieval; để đạt 2 điểm/câu cần chạy LLM thật và đối chiếu câu trả lời với gold answer.
 
 **Điều hay nhất tôi học được từ thành viên khác / nhóm khác (qua demo):**
 > Qua demo, tôi nhận ra việc đánh giá không nên chỉ nhìn score hoặc top-1: cần kiểm tra chunk liên quan có trong top-3 và đối chiếu với gold answer. Metadata như `customer_role`, `category` và `doc_id` cũng rất hữu ích để lọc đúng nhóm người dùng/tài liệu trước khi xếp hạng.
